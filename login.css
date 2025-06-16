@@ -1,0 +1,164 @@
+/* login.css - Updated to work for both login and register pages */
+:root {
+  --primary: #4361ee;       /* Brand blue */
+  --primary-dark: #3a56d4;  /* Slightly darker blue */
+  --text: #2b2d42;         /* Dark gray for text */
+  --text-light: #8d99ae;    /* Light gray for subtitles */
+  --light: #edf2f4;        /* Very light gray */
+  --white: #ffffff;        /* Pure white */
+  --border-radius: 10px;   /* Rounded corners */
+  --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Soft shadow */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f8fafc;  /* Light gray background */
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+/* ===== Auth Container ===== */
+.auth-container, .form-container {
+  width: 100%;
+  max-width: 420px;
+}
+
+.auth-card, .form-container {
+  background: var(--white);
+  padding: 2.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  text-align: center;
+}
+
+.auth-card h1, .form-container h2 {
+  font-size: 1.75rem;  /* 28px */
+  margin-bottom: 0.5rem;
+  color: var(--text);
+  font-weight: 700;
+  border-bottom: none; /* Remove border from register page */
+}
+
+.auth-subtitle {
+  color: var(--text-light);
+  margin-bottom: 1.75rem;  /* 28px */
+  font-size: 0.9375rem;   /* 15px */
+}
+
+/* ===== Form Styles ===== */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;  /* 20px */
+}
+
+.form-group {
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;  /* 14px */
+  color: var(--text);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.875rem 1rem;  /* 14px 16px */
+  border: 1px solid #e2e8f0;
+  border-radius: var(--border-radius);
+  font-size: 0.9375rem;    /* 15px */
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+}
+
+/* ===== Button Styles ===== */
+.auth-btn, .form-container button {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.875rem;  /* 14px */
+  border-radius: var(--border-radius);
+  font-size: 1rem;    /* 16px */
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.auth-btn:hover, .form-container button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+/* ===== Divider ===== */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  color: var(--text-light);
+  font-size: 0.875rem;  /* 14px */
+  margin: 1rem 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.auth-divider::before {
+  margin-right: 0.625rem;  /* 10px */
+}
+
+.auth-divider::after {
+  margin-left: 0.625rem;   /* 10px */
+}
+
+/* ===== Switch Auth ===== */
+.auth-switch, .login-link {
+  margin-top: 1.25rem;  /* 20px */
+  font-size: 0.875rem;  /* 14px */
+  color: var(--text-light);
+}
+
+.auth-switch a, .login-link a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.auth-switch a:hover, .login-link a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+  .auth-card, .form-container {
+    padding: 1.75rem 1.5rem;
+  }
+  
+  body {
+    padding: 1rem;
+  }
+}

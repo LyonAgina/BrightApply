@@ -1,0 +1,95 @@
+:root {                     
+  --primary-color: #007bff; 
+  --hover-color: #0056b3;
+  --form-padding: 30px;
+  --border-radius: 10px;
+  --input-padding: 10px;
+  --box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  --font-color: #333;
+  --label-color: #555;
+    --heading-color: #2c3e50;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.form-container {
+  background: #fff;
+  padding: var(--form-padding);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  width: 80%;
+  max-width: 400px;
+  position: relative;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--font-color);
+  font-size: 24px;
+  font-weight: 600;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+label {
+  display: block;
+  margin: 10px 0 5px;
+  color: var(--label-color);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: var(--input-padding);
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: block;
+}
+
+button {
+  width: 100%;
+  padding: var(--input-padding);
+  background-color: var(--primary-color);
+  border: none;
+  color: white;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: var(--hover-color);
+}
+ 
+.login-link {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.login-link a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+@media (max-width: 500px) {
+  .form-container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  button {
+    font-size: 14px;
+  }
+}
