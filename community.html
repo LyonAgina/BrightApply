@@ -36,17 +36,19 @@
         <main class="main-content">
             <div class="community-header">
                 <h2>Community Discussions</h2>
-                <button class="new-post-btn"><i class="fas fa-plus"></i> New Post</button>
+                <button class="new-post-btn" id="new-post-toggle"><i class="fas fa-plus"></i> New Post</button>
             </div>
 
-            <div class="post-box">
-                <textarea placeholder="Share something with the community..."></textarea>
+            <div class="post-box" id="post-box" style="display: none;">
+                <textarea id="post-content" placeholder="Share something with the community..."></textarea>
                 <div class="post-actions">
-                    <button class="post-btn">Post</button>
+                    <button class="cancel-btn" id="cancel-post">Cancel</button>
+                    <button class="post-btn" id="submit-post">Post</button>
                 </div>
             </div>
 
-            <div class="discussion-list">
+            <div class="discussion-list" id="discussion-list">
+                <!-- Posts will be loaded here dynamically -->
                 <div class="discussion">
                     <div class="discussion-author">
                         <div class="avatar">JD</div>
@@ -60,8 +62,12 @@
                         <p>I'm applying for several scholarships and would love to hear any advice on what makes an essay stand out. What has worked for you?</p>
                     </div>
                     <div class="discussion-stats">
-                        <span><i class="far fa-comment"></i> 12 comments</span>
-                        <span><i class="far fa-thumbs-up"></i> 24 likes</span>
+                        <span class="comment-count"><i class="far fa-comment"></i> 12 comments</span>
+                        <span class="like-count" data-post-id="1"><i class="far fa-thumbs-up"></i> <span class="count">24</span> likes</span>
+                    </div>
+                    <div class="discussion-actions">
+                        <button class="like-btn" data-post-id="1"><i class="far fa-thumbs-up"></i> Like</button>
+                        <button class="comment-btn"><i class="far fa-comment"></i> Comment</button>
                     </div>
                 </div>
                 
@@ -78,8 +84,12 @@
                         <p>Here's a list I compiled of STEM-focused scholarships with deadlines coming up next month...</p>
                     </div>
                     <div class="discussion-stats">
-                        <span><i class="far fa-comment"></i> 8 comments</span>
-                        <span><i class="far fa-thumbs-up"></i> 35 likes</span>
+                        <span class="comment-count"><i class="far fa-comment"></i> 8 comments</span>
+                        <span class="like-count" data-post-id="2"><i class="far fa-thumbs-up"></i> <span class="count">35</span> likes</span>
+                    </div>
+                    <div class="discussion-actions">
+                        <button class="like-btn" data-post-id="2"><i class="far fa-thumbs-up"></i> Like</button>
+                        <button class="comment-btn"><i class="far fa-comment"></i> Comment</button>
                     </div>
                 </div>
             </div>
