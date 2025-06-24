@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<?php
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -99,3 +99,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+?>
