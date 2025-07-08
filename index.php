@@ -17,7 +17,7 @@ include (connection.php);
                 <li><a href="#" class="active">Home</a></li>
                 <li><a href="scholarships.html">Scholarships</a></li>
                 <li><a href="community.html">Community</a></li>
-                <li><a href="login.html" class="login-btn">Login/Signup</a></li>
+                <li><a href="login.php" class="login-btn">Login/Signup</a></li>
             </ul>
             <div class="mobile-menu">
                 <i class="fas fa-bars"></i>
@@ -65,9 +65,9 @@ include (connection.php);
         <aside class="sidebar">
     <ul>
         <li><a href="scholarships.html" class="sidebar-link"><i class="fas fa-award"></i> Scholarships</a></li>
-        <li><a href="saved.html" class="sidebar-link"><i class="fas fa-bookmark"></i> Saved</a></li>
+        <li><a href="saved.php" class="sidebar-link"><i class="fas fa-bookmark"></i> Saved</a></li>
         <li><a href="community.html" class="sidebar-link"><i class="fas fa-users"></i> Community</a></li>
-        <li><a href="profile.html" class="sidebar-link"><i class="fas fa-user"></i> Profile</a></li>
+        <li><a href="profile.php" class="sidebar-link"><i class="fas fa-user"></i> Profile</a></li>
     </ul>
 </aside>
 
