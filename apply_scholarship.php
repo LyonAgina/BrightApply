@@ -2,13 +2,13 @@
 session_start();
 require 'connection.php';
 
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['id'])) {
     header("Location: login.php");
     exit();
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user_id = $_SESSION['user_id'];
+    $user_id = $_SESSION['id'];
     $scholarship_id = $conn->real_escape_string($_POST['scholarship_id']);
     $essay = $conn->real_escape_string($_POST['essay']);
     

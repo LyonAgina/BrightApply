@@ -1,6 +1,14 @@
 <?php
-include (connection.php);
+// index.php
+session_start();
+require 'connection.php';
+require 'functions.php';
+
+// Get featured scholarships (limit to 2 on homepage to match your current design)
+$featured_scholarships = displayScholarships(2);
+$total_scholarships = getScholarshipCount();
 ?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,9 +23,10 @@ include (connection.php);
             <div class="logo">Bright Apply</div>
             <ul class="nav-links">
                 <li><a href="#" class="active">Home</a></li>
-                <li><a href="scholarships.html">Scholarships</a></li>
-                <li><a href="community.html">Community</a></li>
+                <li><a href="scholarships.php">Scholarships</a></li>
                 <li><a href="login.php" class="login-btn">Login/Signup</a></li>
+
+
             </ul>
             <div class="mobile-menu">
                 <i class="fas fa-bars"></i>
@@ -28,17 +37,6 @@ include (connection.php);
     <main>
         <section class="hero">
             <h1>Find the Right Scholarship</h1>
-            <div class="search-container">
-                <div class="search-tabs">
-                    <button class="active">Search</button>
-                    <button>Browse Scholarships</button>
-                    <button>Verified Listings</button>
-                </div>
-                <div class="search-box">
-                    <input type="text" placeholder="Search for scholarships...">
-                    <button><i class="fas fa-search"></i></button>
-                </div>
-            </div>
             <div class="features">
                 <div class="feature">
                     <i class="fas fa-check-circle"></i>
@@ -55,21 +53,15 @@ include (connection.php);
             </div>
         </section>
 
-        <section class="quick-actions">
-            <button>Schedules</button>
-            <button>Search</button>
-            <button class="primary">Apply</button>
-        </section>
-
         <div class="content-container">
-        <aside class="sidebar">
-    <ul>
-        <li><a href="scholarships.html" class="sidebar-link"><i class="fas fa-award"></i> Scholarships</a></li>
-        <li><a href="saved.php" class="sidebar-link"><i class="fas fa-bookmark"></i> Saved</a></li>
-        <li><a href="community.html" class="sidebar-link"><i class="fas fa-users"></i> Community</a></li>
-        <li><a href="profile.php" class="sidebar-link"><i class="fas fa-user"></i> Profile</a></li>
-    </ul>
-</aside>
+            <aside class="sidebar">
+                <ul>
+                    <li><a href="scholarships.php" class="sidebar-link"><i class="fas fa-award"></i> Scholarships</a></li>
+                    <li class="applications"><a href="my_applications.php"><i class="fas fa-file-alt"></i> My Applications</a></li>
+                    <li><a href="profile.php" class="sidebar-link"><i class="fas fa-user"></i> Profile</a></li>
+                    <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </aside>
 
             <section class="main-content">
                 <div class="content-header">
@@ -91,69 +83,17 @@ include (connection.php);
                 </div>
 
                 <div class="scholarship-list">
-                    <div class="scholarship-card">
-                        <h3>DeedSee Scholarship</h3>
-                        <p class="deadline">Deadline: June 30, 2025</p>
-                        <p class="amount">$5,000</p>
-                        <button class="apply-btn">Apply</button>
-                    </div>
-                    <div class="scholarship-card">
-                        <h3>Deelfines Scholarship</h3>
-                        <p class="deadline">Deadline: July 15, 2025</p>
-                        <p class="amount">$3,000</p>
-                        <button class="apply-btn">Apply</button>
-                    </div>
-                </div>
-
-                <div class="community-section">
-                    <h2>Recent Community Posts</h2>
-                    <div class="post-box">
-                        <textarea placeholder="Share something..."></textarea>
-                        <button class="post-btn">Post</button>
-                    </div>
-                    <div class="post">
-                        <div class="post-header">
-                            <span class="username">Stretchline</span>
-                            <span class="user-type">Student</span>
-                        </div>
-                        <div class="post-content">
-                            <p>Has anyone applied for the DeedSee scholarship? I have some questions about the application process.</p>
-                        </div>
-                        <div class="post-stats">
-                            <span><i class="far fa-thumbs-up"></i> 1</span>
-                            <span><i class="far fa-comment"></i> 0</span>
-                        </div>
-                    </div>
+                    <?php if (empty($featured_scholarships)): ?>
+                        <p>No featured scholarships available at this time.</p>
+                    <?php else: ?>
+                        <?php foreach ($featured_scholarships as $scholarship): ?>
+                            <?php renderScholarshipCard($scholarship, false, false); ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </div>
             </section>
         </div>
     </main>
-
-    <div class="login-modal">
-        <div class="login-container">
-            <h2>Login / Signup</h2>
-            <form>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" placeholder="Enter your email">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" placeholder="Enter your password">
-                </div>
-                <div class="form-group">
-                    <label class="checkbox-container">Student
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                    </label>
-                </div>
-                <button type="submit" class="login-submit">Login</button>
-                <button type="button" class="google-login">
-                    <i class="fab fa-google"></i> Continue with Google
-                </button>
-            </form>
-        </div>
-    </div>
 
     <script src="script.js"></script>
 </body>

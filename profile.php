@@ -2,12 +2,12 @@
 session_start();
 require 'connection.php';
 
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['id'])) {
     header("Location: login.php");
     exit();
 }
 
-$user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['id'];
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -16,17 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Get user data
-$user_sql = "SELECT u., up. 
+$user_sql = "SELECT u.*, up.* 
             FROM users u
             LEFT JOIN user_profiles up ON u.id = up.user_id
             WHERE u.id = $user_id";
 $user_result = $conn->query($user_sql);
 $user = $user_result->fetch_assoc();
 
-// Get saved scholarships count
-$saved_count_sql = "SELECT COUNT(*) as count FROM saved_scholarships WHERE user_id = $user_id";
-$saved_count_result = $conn->query($saved_count_sql);
-$saved_count = $saved_count_result->fetch_assoc()['count'];
+
 
 // Get applications count
 $app_count_sql = "SELECT COUNT(*) as count FROM applications WHERE user_id = $user_id";
@@ -38,42 +35,56 @@ $app_count = $app_count_result->fetch_assoc()['count'];
 <html>
 <head>
     <title>My Profile</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <?php include 'header.php'; ?>
     
+    <body>
+        <header class="navbar">
+        <nav>
+            <div class="logo">Bright Apply</div>
+            <ul class="nav-links">
+                <li><a href="index.php">Home</a></li>
+                <li><a href="scholarships.php">Scholarships</a></li>
+                <li><span class="username"><?= htmlspecialchars($_SESSION['full_name']) ?></span></li>
+            </ul>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <div class="content-container">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="scholarships.php"><i class="fas fa-award"></i> Scholarships</a></li>
+                <li class="applications"><a href="my_applications.php"><i class="fas fa-file-alt"></i> My Applications</a></li>
+                <li><a href="profile.php"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </aside>
+
+    
+
     <div class="profile-container">
         <div class="profile-sidebar">
             <div class="profile-picture">
                 <?php if (!empty($user['profile_picture'])): ?>
                     <img src="uploads/<?= htmlspecialchars($user['profile_picture']) ?>" alt="Profile Picture">
                 <?php else: ?>
-                    <div class="initials"><?= substr($user['first_name'], 0, 1) . substr($user['last_name'], 0, 1) ?></div>
+                    <div class="initials"><?= substr($user['full_name'], 0, 1)  ?></div>
                 <?php endif; ?>
             </div>
             
-            <h2><?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?></h2>
+            <h2><?= htmlspecialchars($user['full_name']) ?></h2>
             <p><?= htmlspecialchars($user['email']) ?></p>
-            
-            <div class="stats">
-                <div class="stat-item">
-                    <span class="stat-number"><?= $saved_count ?></span>
-                    <span class="stat-label">Saved</span>
-                </div>
+        
                 <div class="stat-item">
                     <span class="stat-number"><?= $app_count ?></span>
                     <span class="stat-label">Applications</span>
                 </div>
             </div>
             
-            <nav class="profile-nav">
-                <a href="#personal" class="active">Personal Info</a>
-                <a href="#education">Education</a>
-                <a href="#documents">Documents</a>
-                <a href="#social">Social Links</a>
-                <a href="#security">Security</a>
-            </nav>
         </div>
         
         <div class="profile-content">
@@ -84,19 +95,9 @@ $app_count = $app_count_result->fetch_assoc()['count'];
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label>First Name</label>
-                            <input type="text" name="first_name" value="<?= htmlspecialchars($user['first_name']) ?>" required>
+                            <label>Full Name</label>
+                            <input type="text" name="full_name" value="<?= htmlspecialchars($user['full_name']) ?>" required>
                         </div>
-                        <div class="form-group">
-                            <label>Last Name</label>
-                            <input type="text" name="last_name" value="<?= htmlspecialchars($user['last_name']) ?>" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Profile Picture</label>
-                        <input type="file" name="profile_picture" accept="image/*">
-                    </div>
                     
                     <div class="form-row">
                         <div class="form-group">
@@ -162,71 +163,13 @@ $app_count = $app_count_result->fetch_assoc()['count'];
                     </div>
                 </section>
                 
-                <!-- Documents Section -->
-                <section id="documents">
-                    <h3>Documents</h3>
-                    
-                    <div class="form-group">
-                        <label>Resume/CV</label>
-                        <?php if (!empty($user['resume'])): ?>
-                            <p>Current file: <a href="uploads/<?= htmlspecialchars($user['resume']) ?>" target="_blank">Download</a></p>
-                        <?php endif; ?>
-                        <input type="file" name="resume" accept=".pdf,.doc,.docx">
-                    </div>
-                </section>
-                
-                <!-- Social Links Section -->
-                <section id="social">
-                    <h3>Social Links</h3>
-                    
-                    <div class="form-group">
-                        <label>LinkedIn URL</label>
-                        <input type="url" name="linkedin_url" value="<?= htmlspecialchars($user['linkedin_url'] ?? '') ?>">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Twitter URL</label>
-                        <input type="url" name="twitter_url" value="<?= htmlspecialchars($user['twitter_url'] ?? '') ?>">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Personal Website</label>
-                        <input type="url" name="website_url" value="<?= htmlspecialchars($user['website_url'] ?? '') ?>">
-                    </div>
-                </section>
-                
-                <!-- Security Section -->
-                <section id="security">
-                    <h3>Security</h3>
-                    
-                    <div class="form-group">
-                        <label>Current Password (required for email/password changes)</label>
-                        <input type="password" name="current_password">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>New Email</label>
-                        <input type="email" name="new_email" value="<?= htmlspecialchars($user['email']) ?>">
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>New Password</label>
-                            <input type="password" name="new_password">
-                        </div>
-                        <div class="form-group">
-                            <label>Confirm New Password</label>
-                            <input type="password" name="confirm_password">
-                        </div>
-                    </div>
-                </section>
-                
+            
                 <button type="submit" class="btn btn-primary">Save Changes</button>
             </form>
         </div>
     </div>
     
-    <?php include 'footer.php'; ?>
+    
 </body>
 </html>
 <?php $conn->close(); ?>

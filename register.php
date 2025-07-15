@@ -2,22 +2,46 @@
 include("connection.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $password = password_hash($_POST["password"], PASSWORD_DEFAULT); // hash password
-
-    $sql = "INSERT INTO users (full_name, email, password)
-            VALUES (?, ?, ?)";
-
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sss", $name, $email, $password);
-
-    if ($stmt->execute()) {
-        echo "<script>alert('Registration successful!'); window.location.href = 'login.html';</script>";
-    } else {
-        echo "<script>alert('Error: " . $stmt->error . "');</script>";
+    $name = trim($_POST["name"]);
+    $email = trim($_POST["email"]);
+    $password = $_POST["password"];
+    
+    // Validate inputs
+    if (empty($name) || empty($email) || empty($password)) {
+        die("<script>alert('All fields are required!'); window.history.back();</script>");
     }
 
+    // Check if email exists first
+    $check_sql = "SELECT id FROM users WHERE email = ?";
+    $check_stmt = $conn->prepare($check_sql);
+    $check_stmt->bind_param("s", $email);
+    $check_stmt->execute();
+    $check_stmt->store_result();
+    
+    if ($check_stmt->num_rows > 0) {
+        die("<script>alert('This email is already registered!'); window.history.back();</script>");
+    }
+    $check_stmt->close();
+
+    // Hash password
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    // Insert new user
+    $insert_sql = "INSERT INTO users (full_name, email, password) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($insert_sql);
+    $stmt->bind_param("sss", $name, $email, $hashed_password);
+
+    if ($stmt->execute()) {
+        // Redirect to login with success message
+        header("Location: login.php?registration=success");
+        exit();
+    } else {
+        // Show error and keep form data
+        echo "<script>
+                alert('Registration error: " . addslashes($stmt->error) . "');
+                window.history.back();
+              </script>";
+    }
     $stmt->close();
 }
 ?>

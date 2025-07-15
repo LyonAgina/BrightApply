@@ -1,4 +1,4 @@
-<?php
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -13,10 +13,9 @@
         <nav>
             <div class="logo">Bright Apply</div>
             <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="scholarships.html">Scholarships</a></li>
-                <li><a href="community.html">Community</a></li>
-                <li><a href="profile.html" class="login-btn">Back to Profile</a></li>
+                <li><a href="index.php">Home</a></li>
+                <li><a href="scholarships.php">Scholarships</a></li>
+                <li><a href="profile.php" class="login-btn">Back to Profile</a></li>
             </ul>
             <div class="mobile-menu">
                 <i class="fas fa-bars"></i>
@@ -27,10 +26,9 @@
     <div class="content-container">
         <aside class="sidebar">
             <ul>
-                <li><a href="scholarships.html"><i class="fas fa-award"></i> Scholarships</a></li>
-                <li><a href="saved.html"><i class="fas fa-bookmark"></i> Saved</a></li>
-                <li><a href="community.html"><i class="fas fa-users"></i> Community</a></li>
-                <li class="active"><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="scholarships.php"><i class="fas fa-award"></i> Scholarships</a></li>
+                <li><a href="saved.php"><i class="fas fa-bookmark"></i> Saved</a></li>
+                <li class="active"><a href="profile.php"><i class="fas fa-user"></i> Profile</a></li>
             </ul>
         </aside>
 
@@ -48,15 +46,9 @@
 
             <form id="profile-form" class="profile-form">
                 <div class="form-group">
-                    <label for="first-name">First Name</label>
-                    <input type="text" id="first-name" value="John" required>
+                    <label for="full-name">Full Name</label>
+                    <input type="text" id="full-name" value="John" required>
                 </div>
-                
-                <div class="form-group">
-                    <label for="last-name">Last Name</label>
-                    <input type="text" id="last-name" value="Doe" required>
-                </div>
-                
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" id="email" value="john.doe@example.com" required>
@@ -68,7 +60,7 @@
                 </div>
                 
                 <div class="form-actions">
-                    <button type="button" class="cancel-btn" onclick="window.location.href='profile.html'">Cancel</button>
+                    <button type="button" class="cancel-btn" onclick="window.location.href='profile.php'">Cancel</button>
                     <button type="submit" class="save-btn">Save Changes</button>
                 </div>
             </form>
@@ -112,4 +104,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-?>
