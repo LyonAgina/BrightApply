@@ -1,13 +1,16 @@
+
 <?php
+// Start session and include database connection
 session_start();
 require 'connection.php';
 
+// Redirect to login if not admin
 if (!isset($_SESSION['id']) || $_SESSION['user_type'] != 'admin') {
     header("Location: login.php");
     exit();
 }
 
-// Get all applications with user and scholarship info
+// Query: Get all applications with related user and scholarship info
 $applications_sql = "SELECT a.*, u.full_name as user_name, u.email, s.title as scholarship_title 
                     FROM applications a
                     JOIN users u ON a.user_id = u.id
@@ -15,7 +18,7 @@ $applications_sql = "SELECT a.*, u.full_name as user_name, u.email, s.title as s
                     ORDER BY a.application_date DESC";
 $applications_result = $conn->query($applications_sql);
 
-// Get count by status
+// Query: Get application counts by status (pending, approved, rejected)
 $status_counts_sql = "SELECT status, COUNT(*) as count FROM applications GROUP BY status";
 $status_counts_result = $conn->query($status_counts_sql);
 $status_counts = [];
@@ -34,6 +37,8 @@ while ($row = $status_counts_result->fetch_assoc()) {
     <link rel="stylesheet" href="admin.css">
 </head>
 <body>
+
+    <!-- Navigation bar with logo and user info -->
     <header class="navbar">
         <div class="logo">BrightApply</div>
         <nav class="nav-links">
@@ -42,7 +47,9 @@ while ($row = $status_counts_result->fetch_assoc()) {
         </nav>
     </header>
 
+
     <div class="dashboard-container">
+        <!-- Sidebar navigation for admin pages -->
         <aside class="sidebar">
             <ul class="admin-menu">
                 <li><a href="user_management.php"><i class="fas fa-users"></i> User Management</a></li>
@@ -54,6 +61,7 @@ while ($row = $status_counts_result->fetch_assoc()) {
         <main class="main-content">
             <h1>Scholarship Applications</h1>
             
+            <!-- Status summary cards for quick stats -->
             <div class="status-summary">
                 <div class="status-card pending">
                     <h3>Pending</h3>
@@ -69,6 +77,7 @@ while ($row = $status_counts_result->fetch_assoc()) {
                 </div>
             </div>
             
+            <!-- Filter form for applications by status and scholarship -->
             <div class="application-filters">
                 <form method="GET" class="filter-form">
                     <div class="form-group">
@@ -85,6 +94,7 @@ while ($row = $status_counts_result->fetch_assoc()) {
                         <select id="scholarship" name="scholarship">
                             <option value="all">All Scholarships</option>
                             <?php
+                            // Populate scholarship dropdown from DB
                             $scholarships_sql = "SELECT id, title FROM scholarships";
                             $scholarships_result = $conn->query($scholarships_sql);
                             while ($scholarship = $scholarships_result->fetch_assoc()): ?>
@@ -96,6 +106,7 @@ while ($row = $status_counts_result->fetch_assoc()) {
                 </form>
             </div>
             
+            <!-- Applications table listing all results -->
             <div class="applications-list">
                 <table class="applications-table">
                     <thead>
@@ -121,6 +132,7 @@ while ($row = $status_counts_result->fetch_assoc()) {
                                     <td><?= htmlspecialchars($application['scholarship_title']) ?></td>
                                     <td><?= date('M d, Y', strtotime($application['application_date'])) ?></td>
                                     <td>
+                                        <!-- Status badge for application -->
                                         <span class="status-badge <?= $application['status'] ?>">
                                             <?= ucfirst($application['status']) ?>
                                         </span>
@@ -138,6 +150,7 @@ while ($row = $status_counts_result->fetch_assoc()) {
         </main>
     </div>
     
+    <!-- Admin dashboard JS for interactivity -->
     <script src="admin.js"></script>
 </body>
 </html>

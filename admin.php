@@ -1,29 +1,32 @@
+
 <?php
+// Start session and include database connection
 session_start();
 require 'connection.php';
 
-// Check if user is admin
+// Redirect to login if not admin
 if (!isset($_SESSION['id']) || $_SESSION['user_type'] != 'admin') {
     header("Location: login.php");
     exit();
 }
 
-// Handle user updates
+// Handle user update form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_user'])) {
     $id = $conn->real_escape_string($_POST['id']);
     $full_name = $conn->real_escape_string($_POST['full_name']);
     $email = $conn->real_escape_string($_POST['email']);
     $user_type = $conn->real_escape_string($_POST['user_type']);
     
+    // Update user details in database
     $sql = "UPDATE users SET full_name = '$full_name', email = '$email', user_type = '$user_type' WHERE id = $id";
     $conn->query($sql);
 }
 
-// Search functionality
+// Search users by name or email if search query is provided
 $search = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
 $where = $search ? "WHERE full_name LIKE '%$search%' OR email LIKE '%$search%'" : '';
 
-// Get all users
+// Query: Get all users for management table
 $users_sql = "SELECT id, full_name, email, user_type FROM users $where";
 $users_result = $conn->query($users_sql);
 ?>
@@ -38,6 +41,8 @@ $users_result = $conn->query($users_sql);
     <link rel="stylesheet" href="admin.css">
 </head>
 <body>
+
+    <!-- Navigation bar with logo and user info -->
     <header class="navbar">
         <div class="logo">BrightApply</div>
         <nav class="nav-links">
@@ -46,7 +51,9 @@ $users_result = $conn->query($users_sql);
         </nav>
     </header>
 
+
     <div class="dashboard-container">
+        <!-- Sidebar navigation for admin pages -->
         <aside class="sidebar">
             <ul class="admin-menu">
                 <li><a href="user_management.php"><i class="fas fa-users"></i> User Management</a></li>
@@ -58,11 +65,12 @@ $users_result = $conn->query($users_sql);
         <main class="main-content">
             <h1>Welcome, Admin User</h1>
             <p>Select an option from the sidebar to get started.</p>
-            
+            <!-- Main content area for admin dashboard -->
             </div>
         </main>
     </div>
     
+    <!-- Admin dashboard JS for interactivity -->
     <script src="admin.js"></script>
 </body>
 </html>
